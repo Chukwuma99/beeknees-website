@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.19.5.34762",
+      "templateHash": "7578556050289069661"
+    }
+  },
+  "parameters": {
+    "imageName": {
+      "type": "string",
+      "defaultValue": "chumaigwe9/bees-knee-website:1.5"
+    },
+    "dnsNameLabel": {
+      "type": "string",
+      "defaultValue": "beeskneeco"
+    },
+    "resourceGroupName": {
+      "type": "string",
+      "defaultValue": "BeesKneeGroup"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2021-03-01",
+      "name": "[parameters('dnsNameLabel')]",
+      "location": "canadacentral",
+      "properties": {
+        "containers": [
+          {
+            "name": "[parameters('dnsNameLabel')]",
+            "properties": {
+              "image": "[parameters('imageName')]",
+              "ports": [
+                {
+                  "port": 80,
+                  "protocol": "TCP"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGB": 1
+                }
+              }
+            }
+          }
+        ],
+        "osType": "Linux",
+        "restartPolicy": "Always",
+        "ipAddress": {
+          "ports": [
+            {
+              "port": 80,
+              "protocol": "TCP"
+            }
+          ],
+          "type": "Public",
+          "dnsNameLabel": "[parameters('dnsNameLabel')]"
+        }
+      }
+    }
+  ]
+}
