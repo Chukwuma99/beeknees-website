@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  azureSubscription: 'Chukwuma99'
+  azureSubscription: 'Azure subscription 1'
 
 stages:
 - stage: DeployToTesting
