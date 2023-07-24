@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  azureSubscription: 'Azure subscription 1'
+  azureSubscription: 'azure-website-beesknee'
 
 stages:
 - stage: DeployToTesting
