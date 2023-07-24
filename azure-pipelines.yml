@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  azureSubscription: '6913e6d5-e8d8-44cf-a4d3-f4d2be2efa14'
+  azureSubscription: 'Chukwuma99'
 
 stages:
 - stage: DeployToTesting
