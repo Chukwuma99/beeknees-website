@@ -24,7 +24,7 @@ stages:
               azureSubscription: $(azureSubscription)
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file /home/vsts/work/1/s/main.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.0'
+              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.0'
 
 - stage: DeployToProduction
   dependsOn: DeployToTesting
@@ -43,4 +43,4 @@ stages:
               azureSubscription: $(azureSubscription)
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file /home/vsts/work/1/s/main.bicep --parameters dnsNameLabel=beeskneeco imageName=chumaigwe9/bees-knee-website:2.0'
+              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./main.bicep --parameters dnsNameLabel=beeskneeco imageName=chumaigwe9/bees-knee-website:2.0'
