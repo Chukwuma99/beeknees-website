@@ -5,27 +5,6 @@ variables:
   azureSubscription: 'beeknees-website-service'
 
 stages:
-- stage: DeployToTesting
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy to Testing
-    pool:
-      vmImage: 'ubuntu-latest'
-    environment: 'testing'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: |
-              ls -la $(System.DefaultWorkingDirectory)
-            displayName: 'List files in working directory'
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: $(azureSubscription)
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.0'
-
 - stage: DeployToProduction
   dependsOn: DeployToTesting
   jobs:
