@@ -1,9 +1,6 @@
 trigger:
 - main
 
-variables:
-  azureSubscription: 'azure-website-beesknee'
-
 stages:
 - stage: DeployToTesting
   jobs:
