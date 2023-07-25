@@ -22,22 +22,3 @@ stages:
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.0'
-
-- stage: DeployToProduction
-  dependsOn: DeployToTesting
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy to Production
-    pool:
-      vmImage: 'ubuntu-latest'
-    environment: 'production'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: $(azureSubscription)
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./main.bicep --parameters dnsNameLabel=beeskneeco imageName=chumaigwe9/bees-knee-website:2.0'
