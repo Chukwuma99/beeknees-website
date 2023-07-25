@@ -23,8 +23,8 @@ stages:
             inputs:
               azureSubscription: $(azureSubscription)
               scriptType: 'bash'
-              scriptLocation: 'inlineScript'              
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file $(System.DefaultWorkingDirectory)/test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.0'
+              scriptLocation: 'inlineScript'
+              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.0'
 
 
 - stage: DeployToProduction
