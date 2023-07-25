@@ -6,7 +6,6 @@ variables:
 
 stages:
 - stage: DeployToProduction
-  dependsOn: DeployToTesting
   jobs:
   - deployment: Deploy
     displayName: Deploy to Production
