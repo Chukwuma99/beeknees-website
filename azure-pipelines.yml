@@ -16,6 +16,7 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: self
           - script: |
               ls -la $(System.DefaultWorkingDirectory)
             displayName: 'List files in working directory'
