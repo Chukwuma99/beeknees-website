@@ -1,4 +1,4 @@
-param imageName string = 'chumaigwe9/bees-knee-website:1.5'
+param imageName string = 'chumaigwe9/bees-knee-website:2.5'
 param dnsNameLabel string = 'beeskneeco'
 param resourceGroupName string = 'BeesKneeGroup'
 
