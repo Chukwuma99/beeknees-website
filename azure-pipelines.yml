@@ -3,9 +3,29 @@ trigger:
 
 variables:
   azureSubscription: 'beeknees-website-service'
+  dockerRegistryServiceConnection: 'DockerHub'  
+  imageName: 'chumaigwe9/bees-knee-website'
 
 stages:
+- stage: BuildAndPushImage
+  jobs:
+  - job: Build
+    displayName: Build Docker Image
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - checkout: self
+      - task: Docker@2
+        inputs:
+          containerRegistry: $(dockerRegistryServiceConnection)
+          repository: $(imageName)
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+
 - stage: DeployToTesting
+  dependsOn: BuildAndPushImage
   jobs:
   - deployment: Deploy
     displayName: Deploy to Testing
@@ -16,17 +36,12 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: self
-          - script: |
-              ls -la $(System.DefaultWorkingDirectory)
-            displayName: 'List files in working directory'
           - task: AzureCLI@2
             inputs:
               azureSubscription: $(azureSubscription)
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=chumaigwe9/bees-knee-website:2.5'
-
+              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./test.bicep --parameters dnsNameLabel=beeskneeco-testing imageName=$(imageName):$(Build.BuildId)'
 
 - stage: DeployToProduction
   dependsOn: DeployToTesting
@@ -40,10 +55,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: self
           - task: AzureCLI@2
             inputs:
               azureSubscription: $(azureSubscription)
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
-              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./main.bicep --parameters dnsNameLabel=beeskneeco imageName=chumaigwe9/bees-knee-website:2.5'
+              inlineScript: 'az deployment group create --resource-group BeesKneeGroup --template-file ./main.bicep --parameters dnsNameLabel=beeskneeco imageName=$(imageName):$(Build.BuildId)'
